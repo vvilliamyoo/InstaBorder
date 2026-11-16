@@ -35,7 +35,7 @@ A simple web-based tool for adding borders to images. Load an image, adjust the 
 ## Supported Formats
 
 - **Input**: JPG, PNG, GIF, WebP, and most common image formats
-- **Output**: Same format as input (preserves JPG, PNG, etc.) with high quality
+- **Output**: Preserves JPEG, PNG, and WebP input formats by default. Other formats export as PNG; enabling the file-size limit exports as JPEG.
 
 ## Browser Requirements
 

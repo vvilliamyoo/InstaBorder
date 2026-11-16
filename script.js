@@ -3,6 +3,8 @@ const displayImage = document.getElementById('displayImage');
 const imageContainer = document.getElementById('imageContainer');
 const uploadArea = document.getElementById('uploadArea');
 const imageInfo = document.getElementById('imageInfo');
+const imageInfoGroup = document.getElementById('originalInfoGroup');
+const dimensionsInfoGroup = document.getElementById('borderInfoGroup');
 
 document.getElementById('chooseFileButton').addEventListener('click', () => fileInput.click());
 document.getElementById('clearImageButton').addEventListener('click', clearImage);
@@ -165,6 +167,7 @@ function setupImageDisplay(file) {
     originalFileSize = file.size;
     originalFileName = file.name;
     originalFileType = file.type;
+    originalExportMimeType = getCanvasMimeType(getOriginalMimeType());
     dimensionsInfo = document.getElementById('dimensionsInfo');
 
     // Set up blur background when image loads
@@ -173,20 +176,16 @@ function setupImageDisplay(file) {
     blurBackgroundReady = true;
 
     const mb = (file.size / 1024 / 1024).toFixed(2);
-    imageInfo.innerHTML = `
-        <strong>${file.name}</strong><br>
-        ${displayImage.naturalWidth} × ${displayImage.naturalHeight}px<br>
-        ${mb} MB
-    `;
-    imageInfo.style.display = 'block';
-    dimensionsInfo.style.display = 'block';
-    document.getElementById('aspectRatio').value = '4:5';
-    applyAspectRatio();
+    setImageInfo(imageInfo, file.name, displayImage.naturalWidth, displayImage.naturalHeight, mb);
+    imageInfoGroup.style.display = 'block';
+    dimensionsInfoGroup.style.display = 'block';
 
     // Reset export settings
     document.getElementById('limitFileSize').checked = false;
     document.getElementById('maxFileSizeMB').disabled = true;
     document.getElementById('maxFileSizeMB').value = 1;
+    document.getElementById('aspectRatio').value = '4:5';
+    applyAspectRatio();
 }
 
 function clearImage() {
@@ -198,8 +197,8 @@ function clearImage() {
     // Reset UI
     uploadArea.style.display = 'block';
     imageContainer.classList.remove('has-image');
-    imageInfo.style.display = 'none';
-    document.getElementById('dimensionsInfo').style.display = 'none';
+    imageInfoGroup.style.display = 'none';
+    dimensionsInfoGroup.style.display = 'none';
 
     // Reset file input
     fileInput.value = '';
@@ -224,6 +223,7 @@ function clearImage() {
     originalFileSize = null;
     originalFileName = null;
     originalFileType = null;
+    originalExportMimeType = null;
     dimensionsInfo = null;
     blurBackgroundReady = false;
 
@@ -237,7 +237,65 @@ function clearImage() {
 }
 
 // Cache DOM elements and calculations for better performance
-let dimensionsInfo, originalPixels, originalFileSize, originalFileName, originalFileType, blurBackgroundReady = false;
+let dimensionsInfo, originalPixels, originalFileSize, originalFileName, originalFileType, originalExportMimeType, blurBackgroundReady = false;
+
+function getOriginalMimeType() {
+    const mimeType = originalFileType?.toLowerCase();
+    if (mimeType === 'image/jpg' || mimeType === 'image/pjpeg') {
+        return 'image/jpeg';
+    }
+    if (mimeType?.startsWith('image/')) {
+        return mimeType;
+    }
+
+    const extension = originalFileName?.match(/\.([^.]+)$/)?.[1].toLowerCase();
+    const mimeTypesByExtension = {
+        jpg: 'image/jpeg',
+        jpeg: 'image/jpeg',
+        png: 'image/png',
+        webp: 'image/webp',
+        gif: 'image/gif',
+        tif: 'image/tiff',
+        tiff: 'image/tiff'
+    };
+    return mimeTypesByExtension[extension] || 'image/png';
+}
+
+function getCanvasMimeType(mimeType) {
+    const canvas = document.createElement('canvas');
+    return canvas.toDataURL(mimeType).slice(5).split(';')[0];
+}
+
+function getExportMimeType() {
+    return document.getElementById('limitFileSize').checked ? 'image/jpeg' : originalExportMimeType;
+}
+
+function getExportFileName() {
+    const extensionsByMimeType = {
+        'image/jpeg': 'jpg',
+        'image/png': 'png',
+        'image/webp': 'webp',
+        'image/avif': 'avif'
+    };
+    const extension = extensionsByMimeType[getExportMimeType()] || 'png';
+
+    if (originalFileName) {
+        const nameWithoutExt = originalFileName.replace(/\.[^/.]+$/, "");
+        return `${nameWithoutExt}-with-border.${extension}`;
+    }
+
+    return `image-with-border.${extension}`;
+}
+
+function setImageInfo(element, fileName, width, height, sizeMB) {
+    element.replaceChildren(
+        document.createTextNode(fileName),
+        document.createElement('br'),
+        document.createTextNode(`${width} × ${height}px`),
+        document.createElement('br'),
+        document.createTextNode(`${sizeMB} MB`)
+    );
+}
 
 // Throttle border updates for smoother slider performance
 let borderUpdateTimeout;
@@ -294,6 +352,10 @@ function toggleFileSizeLimit() {
         fileSizeInput.disabled = false;
     } else {
         fileSizeInput.disabled = true;
+    }
+
+    if (displayImage.src) {
+        applyBorderFast();
     }
 }
 
@@ -409,12 +471,13 @@ function applyBorderFast() {
             const pixelRatio = newPixels / originalPixels;
             const estimatedSize = (originalFileSize * pixelRatio / 1024 / 1024).toFixed(2);
 
-            dimensionsInfo.innerHTML = `
-                <strong>With Border:</strong><br>
-
-                ${Math.round(totalWidth)} × ${Math.round(totalHeight)}px<br>
-                ${estimatedSize} MB
-            `;
+            setImageInfo(
+                dimensionsInfo,
+                getExportFileName(),
+                Math.round(totalWidth),
+                Math.round(totalHeight),
+                estimatedSize
+            );
         }
     }
 }
@@ -622,7 +685,7 @@ function exportImage() {
             const limitEnabled = document.getElementById('limitFileSize').checked;
             const maxFileSizeMB = parseFloat(document.getElementById('maxFileSizeMB').value);
 
-            const mimeType = 'image/jpeg';
+            const mimeType = getExportMimeType();
             let quality = 1.0; // Start with highest quality
             let dataURL;
 
@@ -661,18 +724,9 @@ function exportImage() {
                 console.log('Export at 100% quality (no size limit)');
             }
 
-            // Generate filename with JPG extension
-            let filename = 'image-with-border';
-            if (originalFileName) {
-                const nameWithoutExt = originalFileName.replace(/\.[^/.]+$/, "");
-                filename = `${nameWithoutExt}-with-border.jpg`;
-            } else {
-                filename = `${filename}.jpg`;
-            }
-
             const a = document.createElement('a');
             a.href = dataURL;
-            a.download = filename;
+            a.download = getExportFileName();
             a.click();
 
         } finally {

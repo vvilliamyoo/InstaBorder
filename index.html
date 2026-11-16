@@ -25,8 +25,6 @@
                 </div>
                 <img id="displayImage" class="display-image initially-hidden" />
             </div>
-            <div class="image-info initially-hidden" id="imageInfo"></div>
-            <div class="dimensions-info initially-hidden" id="dimensionsInfo"></div>
         </div>
 
         <div class="sidebar">
@@ -95,7 +93,22 @@
                     <button type="button" id="applyAspectRatioButton" class="apply-aspect-ratio-button">Apply</button>
                 </div>
             </div>
-            
+
+            <section class="image-information" aria-labelledby="imageInformationHeading">
+                <h2 id="imageInformationHeading">Image Information</h2>
+                <div class="image-info-group initially-hidden" id="originalInfoGroup">
+                    <h3 class="image-info-label">Original:</h3>
+                    <div class="image-info" id="imageInfo"></div>
+                </div>
+                <div class="image-info-group initially-hidden" id="borderInfoGroup">
+                    <h3 class="image-info-label">With Border:</h3>
+                    <div class="dimensions-info" id="dimensionsInfo"></div>
+                </div>
+            </section>
+
+            <footer class="sidebar-footer">
+                <a href="https://github.com/vvilliamyoo/InstaBorder" target="_blank" rel="noopener noreferrer">GitHub</a>
+            </footer>
         </div>
 
 
