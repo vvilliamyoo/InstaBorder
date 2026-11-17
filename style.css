@@ -1,8 +1,27 @@
 :root {
     /* Colors */
-    --accent-color: #007acc;
-    --dark-accent-color: rgb(from var(--accent-color) r g b / 30%);
-    --light-accent-color: rgb(from var(--accent-color) r g b / 50%);
+    --window-color: #29292b;
+    --background-color: #191919;
+    --text-color: #fafafa;
+    --panel-color: #252526;
+
+    --surface-color: #3c3c3c;
+    --surface-dark-color: #333;
+    --surface-hover-color: #444;
+    --surface-hover-alt-color: #666;
+    --surface-active-color: #555;
+    --surface-disabled-color: #2a2a2a;
+
+    --border-color: #555;
+    --divider-color: #3c3c3c;
+    --secondary-text-color: #cccccc;
+    --disabled-text-color: #666;
+    --button-hover-color: var(--accent-color);
+    --shadow-color: rgba(0, 0, 0, 0.3);
+
+    --accent-color: #7682bc;
+    --accent-dark-color: rgb(from var(--accent-color) r g b / 30%);
+    --accent-light-color: rgb(from var(--accent-color) r g b / 50%);
 
     /* Radii */
     --round-radius: 50%;
@@ -19,8 +38,8 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: #1e1e1e;
-    color: #ffffff;
+    background: var(--window-color);
+    color: var(--text-color);
     height: 100vh;
     overflow: hidden;
 }
@@ -36,7 +55,7 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background: #2d2d2d;
+    background: var(--background-color);
     position: relative;
 }
 
@@ -46,10 +65,9 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    border: 2px dashed #555;
-    border-radius: 8px;
-    padding: 20px;
-    background: #333;
+    border: 2px dashed var(--border-color);
+    border-radius: var(--large-radius);
+    background: var(--surface-dark-color);
 }
 
 .image-container.has-image {
@@ -65,7 +83,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 4px 20px var(--shadow-color);
     position: relative;
     z-index: 2;
     display: block;
@@ -92,6 +110,7 @@ body {
 }
 
 .upload-area {
+    border-radius: var(--large-radius);
     text-align: center;
     cursor: pointer;
     padding: 40px;
@@ -102,12 +121,12 @@ body {
 }
 
 .upload-area:hover {
-    background: #444;
+    background: var(--surface-hover-color);
 }
 
 .upload-area:active {
-    transform: scale(0.98);
-    background: #555;
+    transform: scale(0.95);
+    background: var(--surface-active-color);
 }
 
 .upload-icon {
@@ -130,8 +149,8 @@ body {
 .sidebar {
     width: 300px;
     height: 100vh;
-    background: #252526;
-    border-left: 1px solid #3c3c3c;
+    background: var(--panel-color);
+    border-left: 1px solid var(--divider-color);
     padding: 20px;
     overflow-y: auto;
     display: flex;
@@ -139,31 +158,31 @@ body {
 }
 
 .sidebar h2 {
-    margin-bottom: 20px;
-    color: #cccccc;
+    margin-bottom: 10px;
+    color: var(--secondary-text-color);
     font-size: 18px;
-    border-bottom: 1px solid #3c3c3c;
-    padding-bottom: 10px;
+    border-bottom: 1px solid var(--divider-color);
+    padding-bottom: 5px;
 }
 
 .control-group {
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 }
 
 .control-group label {
     display: block;
-    margin-bottom: 8px;
-    color: #cccccc;
+    margin-bottom: 5px;
+    color: var(--secondary-text-color);
     font-size: 14px;
 }
 
 .control-group input[type="file"] {
     width: 100%;
     padding: 8px;
-    background: #3c3c3c;
-    border: 1px solid #555;
-    border-radius: 4px;
-    color: #fff;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--medium-radius);
+    color: var(--text-color);
     margin-bottom: 10px;
 }
 
@@ -171,9 +190,9 @@ body {
     width: 100%;
     height: 40px;
     padding: 0;
-    background: #3c3c3c;
-    border: 1px solid #555;
-    border-radius: 4px;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--medium-radius);
     cursor: pointer;
     margin-bottom: 10px;
 }
@@ -181,10 +200,10 @@ body {
 .control-group select {
     width: 100%;
     padding: 8px;
-    background: #3c3c3c;
-    border: 1px solid #555;
-    border-radius: 4px;
-    color: #fff;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--medium-radius);
+    color: var(--text-color);
     cursor: pointer;
     margin-bottom: 10px;
 }
@@ -192,18 +211,18 @@ body {
 .control-group input[type="number"] {
     width: 100%;
     padding: 8px;
-    background: #3c3c3c;
-    border: 1px solid #555;
-    border-radius: 4px;
-    color: #fff;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--medium-radius);
+    color: var(--text-color);
     font-size: 14px;
     margin-top: 5px;
     transition: background-color 0.3s, opacity 0.3s;
 }
 
 .control-group input[type="number"]:disabled {
-    background: #2a2a2a;
-    color: #666;
+    background: var(--surface-disabled-color);
+    color: var(--disabled-text-color);
     cursor: not-allowed;
     opacity: 0.6;
 }
@@ -236,7 +255,7 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #555;
+    background-color: var(--surface-active-color);
     transition: 0.3s;
     border-radius: 24px;
 }
@@ -248,9 +267,9 @@ body {
     width: 18px;
     left: 3px;
     bottom: 3px;
-    background-color: white;
+    background-color: var(--text-color);
     transition: 0.3s;
-    border-radius: 50%;
+    border-radius: var(--round-radius);
 }
 
 .toggle-switch input:checked + .toggle-slider {
@@ -268,7 +287,7 @@ body {
     -webkit-appearance: none;
     appearance: none;
     height: 6px;
-    background: #3c3c3c;
+    background: var(--surface-color);
     border-radius: 10px;
     outline: none;
 }
@@ -296,21 +315,21 @@ body {
     display: inline-block;
     width: fit-content;
     text-align: center;
-    background: #3c3c3c;
+    background: var(--surface-color);
     padding: 4px;
     margin-right: 2px;
-    border-radius: 3px;
+    border-radius: var(--small-radius);
     font-size: 12px;
-    color: #fff;
+    color: var(--text-color);
 }
 
 .control-group button {
     width: 100%;
     padding: 10px;
-    background: var(--accent-color);
-    border: none;
-    border-radius: 4px;
-    color: white;
+    background: var(--accent-dark-color);
+    border: 1px solid var(--accent-light-color);
+    border-radius: var(--medium-radius);
+    color: var(--text-color);
     cursor: pointer;
     font-size: 14px;
     margin-bottom: 8px;
@@ -318,15 +337,16 @@ body {
 }
 
 .control-group button:hover {
-    background: #005a9e;
+    background: var(--button-hover-color);
 }
 
 .control-group button.secondary {
-    background: #555;
+    background: var(--surface-dark-color);
+    border-color: var(--surface-active-color)
 }
 
 .control-group button.secondary:hover {
-    background: #666;
+    background: var(--surface-hover-alt-color);
 }
 
 .hidden-input {
@@ -343,19 +363,19 @@ body {
 
 .image-info-label {
     margin-bottom: 8px;
-    color: #cccccc;
+    color: var(--secondary-text-color);
     font-size: 14px;
     font-weight: 600;
 }
 
 .image-info,
 .dimensions-info {
-    background: #3c3c3c;
-    border: 1px solid #555;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
     padding: 10px;
-    border-radius: var(--small-radius);
+    border-radius: var(--medium-radius);
     font-size: 12px;
-    color: #cccccc;
+    color: var(--secondary-text-color);
     overflow-wrap: anywhere;
     line-height: 1.5;
 }
@@ -367,18 +387,18 @@ body {
 .sidebar-footer {
     margin-top: auto;
     padding-top: 16px;
-    border-top: 1px solid #3c3c3c;
+    border-top: 1px solid var(--divider-color);
     text-align: center;
     font-size: 13px;
 }
 
 .sidebar-footer a {
-    color: #cccccc;
+    color: var(--secondary-text-color);
     text-decoration: none;
 }
 
 .sidebar-footer a:hover {
-    color: #ffffff;
+    color: var(--text-color);
     text-decoration: underline;
 }
 
@@ -401,10 +421,10 @@ body {
 .custom-ratio-input {
     width: 60px;
     padding: 4px;
-    background: #3c3c3c;
-    border: 1px solid #555;
-    border-radius: 4px;
-    color: #fff;
+    background: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--medium-radius);
+    color: var(--text-color);
 }
 
 .control-group button.apply-aspect-ratio-button {
