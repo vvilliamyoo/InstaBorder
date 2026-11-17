@@ -6,6 +6,7 @@
 - Added PWA functionality.
 - Added the 5:4 aspect ratio and moved 4:5 and 5:4 to the top of the preset list.
 - Added a logo.
+- Added a link to the GitHub repository.
 
 ### Changed
 
