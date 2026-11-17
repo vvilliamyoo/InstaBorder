@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.0.0] -2026-11-17
+## [1.0.0] 2026-11-17
 
 ### Added
 - Added PWA functionality.
