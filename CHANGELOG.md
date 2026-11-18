@@ -1,6 +1,19 @@
 # Changelog
 
-## [1.0.0] 2026-11-17
+## Unreleased
+
+## [0.1.1] 2026-11-17
+
+### Changed
+
+- Updated logo.
+- Shortened website title to optimize for PWA experience.
+
+### Fixed
+
+- Fixed date formatting in the changelog.
+
+## [0.1.0] 2026-11-17
 
 ### Added
 - Added PWA functionality.
